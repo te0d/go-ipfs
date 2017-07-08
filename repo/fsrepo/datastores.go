@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	repo "github.com/ipfs/go-ipfs/repo"
@@ -14,10 +15,9 @@ import (
 	ds "gx/ipfs/QmVSase1JP7cq9QkPT46oNwdp9pT6kBkG3oqS14y3QcZjG/go-datastore"
 	mount "gx/ipfs/QmVSase1JP7cq9QkPT46oNwdp9pT6kBkG3oqS14y3QcZjG/go-datastore/syncmount"
 
-	badgerds "github.com/ipfs/go-ds-badger"
 	levelds "gx/ipfs/QmPdvXuXWAR6gtxxqZw42RtSADMwz4ijVmYHGS542b6cMz/go-ds-leveldb"
+	badgerds "gx/ipfs/QmTC7BY2viSAbPbGte6NyMZJCC2xheaRBYKEn4BuzTxe7W/go-ds-badger"
 	ldbopts "gx/ipfs/QmbBhyDKsY4mbY6xsKt3qu9Y7FPvMJ6qbD8AMjYYvPRw1g/goleveldb/leveldb/opt"
-	"os"
 )
 
 // ConfigFromMap creates a new datastore config from a map
@@ -52,13 +52,13 @@ var datastores map[string]ConfigFromMap
 
 func init() {
 	datastores = map[string]ConfigFromMap{
-		"mount":   MountDatastoreConfig,
-		"flatfs":  FlatfsDatastoreConfig,
-		"levelds": LeveldsDatastoreConfig,
-		"badger":  BadgerdsDatastoreConfig,
-		"mem":     MemDatastoreConfig,
-		"log":     LogDatastoreConfig,
-		"measure": MeasureDatastoreConfig,
+		"mount":    MountDatastoreConfig,
+		"flatfs":   FlatfsDatastoreConfig,
+		"levelds":  LeveldsDatastoreConfig,
+		"badgerds": BadgerdsDatastoreConfig,
+		"mem":      MemDatastoreConfig,
+		"log":      LogDatastoreConfig,
+		"measure":  MeasureDatastoreConfig,
 	}
 }
 
@@ -321,7 +321,7 @@ func (c measureDatastoreConfig) Create(path string) (repo.Datastore, error) {
 }
 
 type badgerdsDatastoreConfig struct {
-	path        string
+	path string
 }
 
 func BadgerdsDatastoreConfig(params map[string]interface{}) (DatastoreConfig, error) {
